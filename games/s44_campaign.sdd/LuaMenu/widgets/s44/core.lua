@@ -10,6 +10,7 @@ local includes = {
 	"components/console.lua",
 
 	-- misc
+	"components/faction_window.lua",
 	"components/background.lua",
 
 	-- new stuff

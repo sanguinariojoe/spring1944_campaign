@@ -4,7 +4,7 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 
 	local globalKeyListener = false
 
-	local titleWidthRel = 0.25
+	local titleWidthRel = 0.1
 
 	-- Large title is 180x125
 	-- Small title is 140x82
@@ -60,8 +60,9 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 	-----------------------------------
 	-- Heading holder
 	-----------------------------------
-	local titleHeight = 125
-	local titleWidth = 360
+	local texInfo = gl.TextureInfo(Configuration:GetHeadingImage())
+	local titleWidth = texInfo.xsize
+	local titleHeight = texInfo.ysize
 	local holder_heading = Control:New {
 		x = 0,
 		y = 0,
@@ -82,7 +83,6 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 		keepAspect = true,
 		file = Configuration:GetHeadingImage(),
 		OnClick = { function()
-			Spring.Echo("OpenURL: uncomment me in interface_root.lua")
 			-- Uncomment me to try it!
 			--Spring.OpenURL("https://gitter.im/Spring-Chobby/Chobby")
 			--Spring.OpenURL("/home/gajop")
@@ -112,6 +112,23 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 	}
 
 	-----------------------------------
+	-- Controls holder
+	-----------------------------------
+	local holder_controls = Control:New {
+		x = 10,
+		y = titleHeight,
+		right = 10,
+		bottom = 80,
+		name = "holder_controls",
+		parent = lobbyInterfaceHolder,
+		resizable = false,
+		draggable = false,
+		padding = {0, 0, 0, 0},
+		children = {}
+	}
+	local factionWindow = FactionWindow(holder_controls)
+
+	-----------------------------------
 	-- Background holder is put here to be at the back
 	-----------------------------------
 	local backgroundHolder = Background(nil, nil, nil, "menuBackgroundBrightness")
@@ -129,8 +146,17 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 	-------------------------------------------------------------------
 
 	function externalFunctions.ViewResize(screenWidth, screenHeight)
-		titleWidth = math.floor(screenWidth * titleWidthRel)
-		holder_heading:SetPos((screenWidth - titleWidth) / 2, 0.1 * screenHeight, titleWidth, nil)
+		local tw = math.floor(screenWidth * titleWidthRel)
+		local th = tw * titleHeight / titleWidth
+		holder_heading:SetPos((screenWidth - tw) / 2, 0.05 * screenHeight, tw, nil)
+		heading_image:SetPos(0, 0, tw, th)
+		-- Controls
+		local x = 10
+		local y = 0.05 * screenHeight + th + 10
+		local w = screenWidth - 2 * x
+		local h = screenHeight - y - 80
+		holder_controls:SetPos(x, y, w, h)
+		factionWindow:OnResize(w, h)
 	end
 
 	function externalFunctions.KeyPressed(key, mods, isRepeat, label, unicode)

@@ -293,6 +293,16 @@ function Configuration:GetHeadingImage()
 	return self.gameConfig.headingLarge
 end
 
+function Configuration:GetAlliesFactionImage(suffix)
+	local s = suffix or ""
+	return self.gameConfig.alliesImage .. s .. ".png"
+end
+
+function Configuration:GetAxisFactionImage(suffix)
+	local s = suffix or ""
+	return self.gameConfig.axisImage .. s .. ".png"
+end
+
 function Configuration:GetEngineVersion()
 	if tonumber(Spring.Utilities.GetEngineVersion()) then
 		-- Master releases lack the '.0' at the end. Who knows what other cases are wrong.

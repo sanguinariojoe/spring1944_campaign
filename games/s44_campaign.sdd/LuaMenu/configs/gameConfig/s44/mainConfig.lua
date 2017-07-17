@@ -12,6 +12,9 @@ local background = {
 	backgroundFocus = backgroundConfig.backgroundFocus,
 }
 
+local alliesImage = LUA_DIRNAME .. "configs/gameConfig/" .. shortname .. "/skinning/factions/allies"
+local axisImage = LUA_DIRNAME .. "configs/gameConfig/" .. shortname .. "/skinning/factions/axis"
+
 ---------------------------------------------------------------------------------
 -- Getters
 ---------------------------------------------------------------------------------
@@ -22,6 +25,8 @@ local externalFuncAndData = {
 	headingLarge            = headingLarge,
 	taskbarIcon             = taskbarIcon,
 	background              = background,
+	alliesImage             = alliesImage,
+	axisImage               = axisImage,
 }
 
 function externalFuncAndData.CheckAvailability()
