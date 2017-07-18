@@ -176,7 +176,7 @@ function CampaignWindow:init(parent)
 		parent = chapter_holder,
 		OnClick = {
 			function(self)
-				Spring.Echo("Start...")
+				WG.Windows.campaign:_StartGame()
 			end
 		},
 	}
@@ -313,4 +313,112 @@ function CampaignWindow:_LoadDay(dayID, side)
 		}
 	end
 	return dayData
+end
+
+function CampaignWindow:_StartGame(chapterID, dayID, side)
+	local s = side or WG.CampaignData.Side
+	local d = dayID or sel_day[s]
+	local c = chapterID or sel_chapter
+
+	local day = WG.CampaignData.GetDayData(d, s)
+	local chapter = day.chapters[c]
+
+	local allyTeams = {}
+	local allyTeamCount = 0
+	local teams = {}
+	local teamCount = 0
+	local players = {}
+	local ais = {}
+	local aiCount = 0
+
+	local localLobby = WG.LibLobby.localLobby
+
+	-- Add the player, this is to make the player team 0.
+	local playerCount = 1
+	local players = {
+		[0] = {
+			Name = chapter.teams[teamCount].name or "Player",
+			Team = teamCount,
+			IsFromDemo = 0,
+			rank = 0,
+		},
+	}
+
+	teams[teamCount] = {
+		TeamLeader = 0,
+		AllyTeam = chapter.teams[teamCount].ally or 0,
+		rgbcolor = chapter.teams[teamCount].color or '0 0 0',
+		start_x = chapter.teams[teamCount].startX,
+		start_z = chapter.teams[teamCount].startZ,
+	}
+	teamCount = teamCount + 1
+
+	for i = 1, #chapter.teams do
+		local shortName = "Campaign empty bot"
+		
+		ais[aiCount] = {
+			Name = chapter.teams[teamCount].name or "AI." .. tostring(aiCount),
+			Team = teamCount,
+			IsFromDemo = 0,
+			ShortName = shortName,
+			comm_merge = 0,
+			Host = 0,
+		}
+		aiCount = aiCount + 1
+
+		teams[teamCount] = {
+			TeamLeader = 0,
+			AllyTeam = chapter.teams[teamCount].ally or 1,
+			rgbcolor = chapter.teams[teamCount].color or '0 0 0',
+			start_x = chapter.teams[teamCount].startX,
+			start_z = chapter.teams[teamCount].startZ,
+		}
+		teamCount = teamCount + 1
+	end
+
+	-- Add allyTeams
+	for i, teamData in pairs(teams) do
+		if not allyTeams[teamData.AllyTeam] then
+			allyTeams[teamData.AllyTeam] = {
+				numallies = 0,
+			}
+		end
+	end
+
+	local script = {
+		gametype = 'Spring: 1944 $VERSION',
+		hostip = '127.0.0.1',
+		hostport = 0,
+		ishost = 1,
+		mapname = chapter.map,
+		myplayername = chapter.teams[0].name or "Player",
+		nohelperais = 0,
+		numplayers = playerCount,
+		numusers = playerCount + aiCount,
+		startpostype = 0, -- Fixed
+		modoptions = {
+		},
+	}
+
+	if chapter.modOptions then
+		for k,v in pairs(chapter.modOptions) do
+			script.modoptions[k] = v
+		end
+	end
+
+	for i, ai in pairs(ais) do
+		script["ai" .. i] = ai
+	end
+	for i, player in pairs(players) do
+		script["player" .. i] = player
+	end
+	for i, team in pairs(teams) do
+		script["team" .. i] = team
+	end
+	for i, allyTeam in pairs(allyTeams) do
+		script["allyTeam" .. i] = allyTeam
+	end
+
+	local scriptString = localLobby:MakeScriptTXT(script)
+	localLobby:StartGameFromString(scriptString)
 end

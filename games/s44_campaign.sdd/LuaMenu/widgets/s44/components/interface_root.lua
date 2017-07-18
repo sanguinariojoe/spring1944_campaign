@@ -190,6 +190,20 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 		return backgroundHolder
 	end
 
+	function externalFunctions.SetIngame(status)
+		if lobbyInterfaceHolder.visible ~= status then
+			return
+		end
+		backgroundHolder:SetEnabled(not status)
+		if status then
+			lobbyInterfaceHolder:Hide()
+			ingameInterfaceHolder:Show()
+		else
+			lobbyInterfaceHolder:Show()
+			ingameInterfaceHolder:Hide()
+		end
+	end
+
 	-------------------------------------------------------------------
 	-- Listening
 	-------------------------------------------------------------------

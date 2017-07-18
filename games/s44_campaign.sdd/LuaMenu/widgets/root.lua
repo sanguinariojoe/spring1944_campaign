@@ -22,27 +22,9 @@ S44_DIR = LUA_DIRNAME .. "widgets/s44/"
 
 --------------------------------------------------------------------------------
 -------------------------------------------------------------------------------- 
+-- Callins
 
-local glTexCoord = gl.TexCoord
-local glVertex = gl.Vertex
-local glColor = gl.Color
-local glRect = gl.Rect
-local glTexture = gl.Texture
-local glTexRect = gl.TexRect
-local glDepthTest = gl.DepthTest
-local glBeginEnd = gl.BeginEnd
-local GL_QUADS = GL.QUADS
-local GL_TRIANGLE_FAN = GL.TRIANGLE_FAN
-local glPushMatrix = gl.PushMatrix
-local glPopMatrix = gl.PopMatrix
-local glTranslate = gl.Translate
-local glBeginText = gl.BeginText
-local glEndText = gl.EndText
-local glText = gl.Text
-local glCallList = gl.CallList
-local glCreateList = gl.CreateList
-local glDeleteList = gl.DeleteList
-
+local interfaceRoot
 
 local oldSizeX, oldSizeY
 function widget:ViewResize(vsx, vsy)
@@ -64,14 +46,21 @@ function widget:ActivateMenu()
 		ignoreFirstCall = false
 		return
 	end
+	interfaceRoot.SetIngame(false)
+	lobby:SetIngameStatus(false)
 end
 
 function widget:ActivateGame()
+	interfaceRoot.SetIngame(true)
 end
 
 function widget:Initialize()
 	WG.LimitFps.ForceRedrawPeriod(5) -- High FPS for the first few seconds to shorten the initial white flash.
-
+	if not WG.LibLobby then
+		Spring.Log("chobby", LOG.ERROR, "Missing liblobby.")
+		widgetHandler:RemoveWidget(widget)
+		return
+	end
 	if not WG.Chili then
 		Spring.Log("chobby", LOG.ERROR, "Missing chiliui.")
 		widgetHandler:RemoveWidget(widget)
@@ -84,7 +73,15 @@ function widget:Initialize()
 	WG.s44:_Initialize()
 
 	interfaceRoot = WG.s44.GetInterfaceRoot()
+	local lobbyInterfaceHolder = interfaceRoot.GetLobbyInterfaceHolder()
+	s44.lobbyInterfaceHolder = lobbyInterfaceHolder
 	s44.interfaceRoot = interfaceRoot
+
+	local function OnBattleAboutToStart()
+		lobby:SetIngameStatus(true)
+	end
+	WG.LibLobby.localLobby:AddListener("OnBattleAboutToStart", OnBattleAboutToStart)
+	WG.LibLobby.lobby:AddListener("OnBattleAboutToStart", OnBattleAboutToStart)
 
 	Spring.SetWMCaption("Spring:1944", "Spring:1944")
 	local taskbarIcon = LUA_DIRNAME .. "configs/gameConfig/s44/taskbarLogo.png"
@@ -98,26 +95,6 @@ end
 
 function widget:Shutdown()
 	Spring.Log("S44", LOG.NOTICE, "Shutdown")
-end
-
-function BackgroundList()
-	glColor(1, 1, 1, 1)
-	glTexture(LUA_DIRNAME .. "configs/gameConfig/s44/skinning/background.png")
-	glTexRect(0, 0, screenWidth, screenHeight, true, true)
-	glTexture(false)
-end
-
-local backgroundList
-function widget:DrawScreen()
-	glPushMatrix()
-	glTranslate(0, 0, 0)
-	--call list
-	if backgroundList then
-		glCallList(backgroundList)
-	else 
-		backgroundList = glCreateList(BackgroundList)
-	end
-	glPopMatrix()
 end
 
 function widget:DownloadStarted(...)
