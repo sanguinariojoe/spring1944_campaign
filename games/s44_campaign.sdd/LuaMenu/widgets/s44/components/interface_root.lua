@@ -124,9 +124,14 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 		resizable = false,
 		draggable = false,
 		padding = {0, 0, 0, 0},
-		children = {}
+		children = {},
 	}
 	local factionWindow = FactionWindow(holder_controls)
+	local campaignWindow = CampaignWindow(holder_controls)
+	WG.Windows = {
+		faction = factionWindow,
+		campaign = campaignWindow,
+	}
 
 	-----------------------------------
 	-- Background holder is put here to be at the back
@@ -157,6 +162,7 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 		local h = screenHeight - y - 80
 		holder_controls:SetPos(x, y, w, h)
 		factionWindow:OnResize(w, h)
+		campaignWindow:OnResize(w, h)
 	end
 
 	function externalFunctions.KeyPressed(key, mods, isRepeat, label, unicode)

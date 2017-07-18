@@ -1,7 +1,7 @@
 FactionWindow = Component:extends{}
 
 local allies_w, allies_h, allies_btn, axis_w, axis_h, axis_btn
-function FactionWindow:init(parent)
+function FactionWindow:init(parent, root)
 	self:DoInit() -- Lack of inheritance strikes again.
 
 	self.CancelFunc = function ()
@@ -36,11 +36,10 @@ function FactionWindow:init(parent)
 		keepAspect = true,
 		file = Configuration:GetAlliesFactionImage(),
 		file2 = Configuration:GetAlliesFactionImage("_out"),
-		OnClick = { function()
-			Spring.Echo("OpenURL: uncomment me in faction_window.lua")
-			-- Uncomment me to try it!
-			--Spring.OpenURL("https://gitter.im/Spring-Chobby/Chobby")
-			--Spring.OpenURL("/home/gajop")
+		OnClick = { function(self)
+			WG.CampaignData.Side = "allies"
+			WG.Windows.faction:HideWindow()
+			WG.Windows.campaign:ShowWindow()
 		end},
 		OnMouseOver = { function(self)
 			self.file2 = Configuration:GetAlliesFactionImage("_in")
@@ -61,11 +60,10 @@ function FactionWindow:init(parent)
 		keepAspect = true,
 		file = Configuration:GetAxisFactionImage(),
 		file2 = Configuration:GetAxisFactionImage("_out"),
-		OnClick = { function()
-			Spring.Echo("OpenURL: uncomment me in faction_window.lua")
-			-- Uncomment me to try it!
-			--Spring.OpenURL("https://gitter.im/Spring-Chobby/Chobby")
-			--Spring.OpenURL("/home/gajop")
+		OnClick = { function(self)
+			WG.CampaignData.Side = "axis"
+			WG.Windows.faction:HideWindow()
+			WG.Windows.campaign:ShowWindow()
 		end},
 		OnMouseOver = { function(self)
 			self.file2 = Configuration:GetAxisFactionImage("_in")

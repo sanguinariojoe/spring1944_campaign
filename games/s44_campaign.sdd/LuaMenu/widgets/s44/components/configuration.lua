@@ -48,6 +48,7 @@ function Configuration:init()
 
 	self.animate_lobby = gl.CreateShader ~= nil
 
+	self.campaignData = VFS.Include(LUA_DIRNAME .. "configs/campaign/" .. self.gameConfigName .. "/mainConfig.lua")
 	self.campaignSaveFile = "Campaign"
 
 	self:UpdateFixedSettings()
@@ -209,7 +210,6 @@ function Configuration:GetConfigData()
 		window_WindowPosY = self.window_WindowPosY,
 		window_XResolutionWindowed = self.window_XResolutionWindowed,
 		window_YResolutionWindowed = self.window_YResolutionWindowed,
-		campaignSaveFile = self.campaignSaveFile,
 		campaignSaveFile = self.campaignSaveFile,
 	}
 end

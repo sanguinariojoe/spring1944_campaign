@@ -11,6 +11,7 @@ local includes = {
 
 	-- misc
 	"components/faction_window.lua",
+	"components/campaign_window.lua",
 	"components/background.lua",
 
 	-- new stuff
@@ -33,7 +34,7 @@ function s44:_Initialize()
 						WG.BattleStatusPanel.RemoveBattleTab()
 						return
 					end
-					Spring.Log("chobby", LOG.NOTICE, "Showing battle with ID", battleID)
+					Spring.Log("s44", LOG.NOTICE, "Showing battle with ID", battleID)
 					WG.BattleRoomWindow.ShowMultiplayerBattleRoom(battleID)
 				end
 			)
