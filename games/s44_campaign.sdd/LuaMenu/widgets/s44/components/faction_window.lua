@@ -109,6 +109,5 @@ function FactionWindow:CenterImage(w, h, W, H)
 	local f = math.min(W / w, H / h)
 	local width, height = f * w, f * h
 	local x, y = 0.5 * (W - width), 0.5 * (H - height)
-	Spring.Echo(f, x, y, width, height)
 	return x, y, width, height
 end
