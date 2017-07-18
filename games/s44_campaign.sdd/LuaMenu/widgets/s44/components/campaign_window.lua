@@ -128,7 +128,8 @@ function CampaignWindow:init(parent)
 	map = Image:New {
 		width = "100%",
 		height = "100%",
-		keepAspect = true,
+		keepAspect = false,
+		keepAspect = false,
 		file = LUA_DIRNAME .. "configs/gameConfig/s44/skinning/maps/Europe_1942.png",
 		parent = map_holder,
 	}
@@ -294,7 +295,7 @@ function CampaignWindow:_LoadDay(dayID, side)
 			y = c.y,
 			width = c.width,
 			height = c.height,
-			keepAspect = true,
+			keepAspect = false,
 			file = c.img .. ".png",
 			file2 = c.img .. "_out.png",
 			parent = map,

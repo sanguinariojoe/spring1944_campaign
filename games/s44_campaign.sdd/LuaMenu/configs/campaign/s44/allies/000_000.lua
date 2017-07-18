@@ -17,10 +17,10 @@ local retData = {
 	map = "1944 - Campaign 0 - tutorial 1",
 	level = 1,
 	img = LUA_DIRNAME .. "configs/campaign/" .. shortname .. "/allies/000_000",
-	x = "20%",
-	y = "70%",
-	width = nil,
-	height = nil,
+	x = "3%",
+	y = "40%",
+	width = "53%",
+	height = "23%",
 	description = desc,
 }
 
