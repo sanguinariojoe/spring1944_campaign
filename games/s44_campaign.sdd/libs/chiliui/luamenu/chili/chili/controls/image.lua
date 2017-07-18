@@ -103,9 +103,9 @@ function Image:IsActive()
   end
 end
 
-function Image:HitTest()
+function Image:HitTest(...)
   --FIXME check if there are any eventhandlers linked (OnClick,OnMouseUp,...)
-  return self:IsActive() and self
+  return Control.HitTest(self, ...) or self:IsActive() and self
 end
 
 function Image:MouseDown(...)
