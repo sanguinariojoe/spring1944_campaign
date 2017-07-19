@@ -40,7 +40,7 @@ local retData = {
 	},
 	modOptions = {
 		communism_mode = 1,
-	}
+	},
 }
 
 return retData

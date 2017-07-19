@@ -1,6 +1,6 @@
 CampaignWindow = Component:extends{}
 
-local daySelector_holder, dayLabel, map, description_holder
+local daySelector_holder, dayLabel, map, description_holder, awardsStackPanel
 local sel_day = {}
 local sel_chapter = nil
 function CampaignWindow:init(parent)
@@ -152,7 +152,7 @@ function CampaignWindow:init(parent)
 
 	description_holder = Control:New {
 		x = 0,
-		right = 0,
+		right = 84,
 		y = 0,
 		bottom = 80,
 		parent = chapter_holder,
@@ -164,6 +164,25 @@ function CampaignWindow:init(parent)
 				self:RemoveListeners()
 			end
 		},
+	}
+
+	local awardsScrollPanel = ScrollPanel:New {
+		right = 10,
+		y = 0,
+		width = 64,
+		bottom = 80,
+		parent = chapter_holder,
+		horizontalScrollbar = false,
+		padding = {0, 0, 0, 0},
+	}
+	awardsStackPanel = Control:New {
+		x = 0,
+		right = 0,
+		y = 0,
+		bottom = 0,
+		padding = {0, 0, 0, 0},
+		parent = awardsScrollPanel,
+		preserveChildrenOrder = true,
 	}
 
 	local buttons_start = Button:New {
@@ -254,6 +273,7 @@ function CampaignWindow:_LoadChapter(chapterID, dayID, side)
 	if c == nil then
 		return nil
 	end
+	-- Draw the mission in the map
 	if sel_chapter and map.children[sel_chapter] then
 		-- Disable the highlighted icon
 		map.children[sel_chapter].file2 = dayData.chapters[sel_chapter].img .. "_out.png"
@@ -278,6 +298,37 @@ function CampaignWindow:_LoadChapter(chapterID, dayID, side)
 			end
 		},
 	}
+	-- Draw a tick/cross depending whether the mission is accompished or not
+	local successImg
+	if dayData.chapters[c].success then
+		successImg = LUA_DIRNAME .. "configs/campaign/s44/awards/success.png"
+	else
+		successImg = LUA_DIRNAME .. "configs/campaign/s44/awards/unsuccess.png"
+	end
+	awardsStackPanel.children = {}
+	local success = Image:New {
+		x = 0,
+		y = 0,
+		width = 64,
+		height = 64,
+		keepAspect = true,
+		file = successImg,
+		parent = awardsStackPanel,
+	}
+	-- Draw the awards
+	if dayData.chapters[c].awards then
+		for i,a in ipairs(dayData.chapters[c].awards) do
+			local success = Image:New {
+				x = 0,
+				y = i * 64,
+				width = 64,
+				height = 64,
+				keepAspect = true,
+				file = LUA_DIRNAME .. "configs/campaign/s44/awards/" .. a.img,
+				parent = awardsStackPanel,
+			}
+		end
+	end
 	return c
 end
 
