@@ -26,6 +26,7 @@ local SAVE_DIR = "Saves/campaign/"
 local ICONS_DIR = LUA_DIRNAME .. "configs/gameConfig/s44/skinning/icons"
 local WON_STRING = "Campaign_S44Won"
 local LOST_STRING = "Campaign_S44Lost"
+local AWARD_STRING = "Campaign_S44Award"
 -- Just increase this value when something is changed in the campaign data
 local VERSION = 1
 
@@ -257,6 +258,16 @@ function widget:RecvLuaMsg(msg)
 		gamedata[sel.campaign][sel.day].chapters[sel.chapter].success = true
 	elseif string.find(msg, LOST_STRING) then
 		gamedata[sel.campaign][sel.day].chapters[sel.chapter].success = false
+	elseif string.find(msg, AWARD_STRING) then
+		local endOfID = string.find(msg, " ")
+		local awardImg = string.sub(msg, endOfID + 1)
+		if not gamedata[sel.campaign][sel.day].chapters[sel.chapter].awards then
+			gamedata[sel.campaign][sel.day].chapters[sel.chapter].awards = {}
+		end
+		local a = gamedata[sel.campaign][sel.day].chapters[sel.chapter].awards
+		a[#a + 1] = {
+			img = awardImg
+		}
 	end
 	SaveGame()
 end
