@@ -24,6 +24,10 @@ local externalFunctions = {}
 
 local SAVE_DIR = "Saves/campaign/"
 local ICONS_DIR = LUA_DIRNAME .. "configs/gameConfig/s44/skinning/icons"
+local WON_STRING = "Campaign_S44Won"
+local LOST_STRING = "Campaign_S44Lost"
+-- Just increase this value when something is changed in the campaign data
+local VERSION = 1
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -81,13 +85,14 @@ local function SaveGame()
 	if gamedata == nil then
 		LoadGame()
 	end
-	fileName = WG.s44.Configuration.campaignSaveFile
+	local fileName = WG.s44.Configuration.campaignSaveFile
 	local success, err = pcall(function()
 		Spring.CreateDir(SAVE_DIR)
-		path = SAVE_DIR .. fileName .. ".lua"
+		local path = SAVE_DIR .. fileName .. ".lua"
 		local saveData = Spring.Utilities.CopyTable(gamedata, true)
 		saveData.name = fileName
 		saveData.date = os.date('*t')
+		saveData.version = VERSION
 		table.save(saveData, path)
 		Spring.Log(widget:GetInfo().name, LOG.INFO, "Saved game to " .. path)
 	end)
@@ -101,10 +106,9 @@ local function Load(filepath)
 	local ret = nil
 	local success, err = pcall(function()
 		local saveData = VFS.Include(filepath)
-		local campaignDef = campaignDefsByID[saveData.campaignID]
-		--if (campaignDef) then
+		if saveData.version == VERSION then
 			ret = saveData
-		--end
+		end
 	end)
 	if (not success) then
 		Spring.Log(widget:GetInfo().name, LOG.ERROR, "Error loading file: " .. err)
@@ -114,12 +118,17 @@ local function Load(filepath)
 end
 
 local function LoadGame()
-	fileName = WG.s44.Configuration.campaignSaveFile
-	if not VFS.FileExists(fileName) then
+	local fileName = WG.s44.Configuration.campaignSaveFile
+	local path = SAVE_DIR .. fileName .. ".lua"
+	if not VFS.FileExists(path) then
 		gamedata = WG.s44.Configuration.campaignData
 	else
-		gamedata = Load(filename)
-		Spring.Log(widget:GetInfo().name, LOG.INFO, "Loaded file " .. saveData.name)
+		gamedata = Load(path)
+		if not gamedata then
+			gamedata = WG.s44.Configuration.campaignData
+			Spring.Log(widget:GetInfo().name, LOG.WARNING, "Outdated campaign file")
+		end
+		Spring.Log(widget:GetInfo().name, LOG.INFO, "Loaded file " .. fileName)
 	end
 end
 
@@ -214,6 +223,17 @@ function externalFunctions.IsCampaignFinished(campaign)
 	return finished
 end
 
+function externalFunctions.SelectMission(chapterID, dayID, campaign)
+	-- Call this function before starting the game!!!
+	if gamedata == nil then
+		LoadGame()
+	end
+	-- This function assumes that all, the chapter, day and campaign, are valid
+	gamedata.selected = {campaign=campaign,
+	                     day=dayID,
+	                     chapter=chapterID}
+end
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 -- Initialiazation
@@ -226,6 +246,19 @@ function widget:Initialize()
 	WG.CampaignData.Side = "allies"  -- Start with allies, for debugging purposes
 
 	WG.Delay(LoadGame, 0.1)
+end
+
+function widget:RecvLuaMsg(msg)
+	local sel = gamedata.selected
+	if not sel then
+		return
+	end
+	if string.find(msg, WON_STRING) then
+		gamedata[sel.campaign][sel.day].chapters[sel.chapter].success = true
+	elseif string.find(msg, LOST_STRING) then
+		gamedata[sel.campaign][sel.day].chapters[sel.chapter].success = false
+	end
+	SaveGame()
 end
 
 function widget:Shutdown()

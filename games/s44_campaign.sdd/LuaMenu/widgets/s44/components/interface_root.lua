@@ -201,6 +201,7 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 		else
 			lobbyInterfaceHolder:Show()
 			ingameInterfaceHolder:Hide()
+			campaignWindow:_LoadChapter()  -- Refresh the mission status
 		end
 	end
 

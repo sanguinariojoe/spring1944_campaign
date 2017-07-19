@@ -249,9 +249,11 @@ function CampaignWindow:_GetDaysList(side)
 	local days = {}
 	-- Get list of available days
 	local lastDayID = WG.CampaignData.GetLastDayUnlocked(side)
-	for i=1,lastDayID do
-		local dayData =  WG.CampaignData.GetDayData(i, side)
-		days[i] = dayData.name
+	if lastDayID then
+		for i=1,lastDayID do
+			local dayData =  WG.CampaignData.GetDayData(i, side)
+			days[i] = dayData.name
+		end
 	end
 	return days
 end
@@ -470,6 +472,7 @@ function CampaignWindow:_StartGame(chapterID, dayID, side)
 		script["allyTeam" .. i] = allyTeam
 	end
 
+	WG.CampaignData.SelectMission(c, d, s)
 	local scriptString = localLobby:MakeScriptTXT(script)
 	localLobby:StartGameFromString(scriptString)
 end
