@@ -260,14 +260,17 @@ function widget:RecvLuaMsg(msg)
 		gamedata[sel.campaign][sel.day].chapters[sel.chapter].success = false
 	elseif string.find(msg, AWARD_STRING) then
 		local endOfID = string.find(msg, " ")
+		local endOfImg = string.find(msg, ":")
 		local awardID = string.sub(msg, 18, endOfID)
-		local awardImg = string.sub(msg, endOfID + 1)
+		local awardImg = string.sub(msg, endOfID + 1, endOfImg)
+		local awardDes = string.sub(msg, endOfImg + 1)
 		if not gamedata[sel.campaign][sel.day].chapters[sel.chapter].awards then
 			gamedata[sel.campaign][sel.day].chapters[sel.chapter].awards = {}
 		end
 		local a = gamedata[sel.campaign][sel.day].chapters[sel.chapter].awards
 		a[awardID] = {
-			img = awardImg
+			img = awardImg,
+			description = awardDes,
 		}
 	end
 	SaveGame()
