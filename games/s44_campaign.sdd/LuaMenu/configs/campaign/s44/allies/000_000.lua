@@ -4,8 +4,7 @@ local desc = [[
 Infantry basic course:
 ========================
 
-	The top of the hill in front of you is a vital strategical point! command
-	your squad to take the control.
+	The top of the hill in front of you is a critical point! command your squad to take the control.
 
 	In this course you are learning the basics regarding infantry.
 ]]
