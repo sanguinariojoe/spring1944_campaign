@@ -22,7 +22,7 @@ local gamedata = nil
 
 local externalFunctions = {}
 
-local SAVE_DIR = "Saves/campaign/"
+local SAVE_DIR = "Saves/S44Campaign/"
 local ICONS_DIR = LUA_DIRNAME .. "configs/gameConfig/s44/skinning/icons"
 local WON_STRING = "Campaign_S44Won"
 local LOST_STRING = "Campaign_S44Lost"
