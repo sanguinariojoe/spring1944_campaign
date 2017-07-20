@@ -319,7 +319,8 @@ function CampaignWindow:_LoadChapter(chapterID, dayID, side)
 	}
 	-- Draw the awards
 	if dayData.chapters[c].awards then
-		for i,a in ipairs(dayData.chapters[c].awards) do
+		local i = 1
+		for k,a in pairs(dayData.chapters[c].awards) do
 			local success = Image:New {
 				x = 0,
 				y = i * 64,
@@ -329,6 +330,7 @@ function CampaignWindow:_LoadChapter(chapterID, dayID, side)
 				file = LUA_DIRNAME .. "configs/campaign/s44/awards/" .. a.img,
 				parent = awardsStackPanel,
 			}
+			i = i + 1
 		end
 	end
 	return c
