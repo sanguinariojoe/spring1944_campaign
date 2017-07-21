@@ -1,0 +1,143 @@
+[S44tallgrass_01a]
+	{
+	world=allworld;
+	description=Tallgrass;
+	category=Plants;
+	object=S44tallgrass_01a.S3O;
+	footprintx=1;
+	footprintz=1;
+	height=2;
+	blocking=0;
+	hitdensity=0;
+	energy=1;
+      	damage=100;
+	reclaimable=1;
+	featurereclamate=smudge01; 
+  	seqnamereclamate=tree1reclamate;
+	}
+
+[S44tallgrass_01b]
+	{
+	world=allworld;
+	description=Tallgrass;
+	category=Plants;
+	object=S44tallgrass_01b.S3O;
+	footprintx=1;
+	footprintz=1;
+	height=2;
+	blocking=0;
+	hitdensity=0;
+	energy=1;
+      	damage=100;
+	reclaimable=1;
+	featurereclamate=smudge01; 
+  	seqnamereclamate=tree1reclamate;
+	}
+
+[S44tallgrass_01c]
+	{
+	world=allworld;
+	description=Tallgrass;
+	category=Plants;
+	object=S44tallgrass_01c.S3O;
+	footprintx=1;
+	footprintz=1;
+	height=2;
+	blocking=0;
+	hitdensity=0;
+	energy=1;
+      	damage=100;
+	reclaimable=1;
+	featurereclamate=smudge01; 
+  	seqnamereclamate=tree1reclamate;
+	}
+
+[S44tallgrass_01d]
+	{
+	world=allworld;
+	description=Tallgrass;
+	category=Plants;
+	object=S44tallgrass_01d.S3O;
+	footprintx=1;
+	footprintz=1;
+	height=2;
+	blocking=0;
+	hitdensity=0;
+	energy=1;
+      	damage=100;
+	reclaimable=1;
+	featurereclamate=smudge01; 
+  	seqnamereclamate=tree1reclamate;
+	}
+
+[S44tallgrass_02a]
+	{
+	world=allworld;
+	description=Tallgrass;
+	category=Plants;
+	object=S44tallgrass_02a.S3O;
+	footprintx=1;
+	footprintz=1;
+	height=2;
+	blocking=0;
+	hitdensity=0;
+	energy=1;
+      	damage=100;
+	reclaimable=1;
+	featurereclamate=smudge01; 
+  	seqnamereclamate=tree1reclamate;
+	}
+
+[S44tallgrass_02b]
+	{
+	world=allworld;
+	description=Tallgrass;
+	category=Plants;
+	object=S44tallgrass_02b.S3O;
+	footprintx=1;
+	footprintz=1;
+	height=2;
+	blocking=0;
+	hitdensity=0;
+	energy=1;
+      	damage=100;
+	reclaimable=1;
+	featurereclamate=smudge01; 
+  	seqnamereclamate=tree1reclamate;
+	}
+
+[S44tallgrass_02c]
+	{
+	world=allworld;
+	description=Tallgrass;
+	category=Plants;
+	object=S44tallgrass_02c.S3O;
+	footprintx=1;
+	footprintz=1;
+	height=2;
+	blocking=0;
+	hitdensity=0;
+	energy=1;
+      	damage=100;
+	reclaimable=1;
+	featurereclamate=smudge01; 
+  	seqnamereclamate=tree1reclamate;
+	}
+
+[S44tallgrass_02d]
+	{
+	world=allworld;
+	description=Tallgrass;
+	category=Plants;
+	object=S44tallgrass_02d.S3O;
+	footprintx=1;
+	footprintz=1;
+	height=2;
+	blocking=0;
+	hitdensity=0;
+	energy=1;
+      	damage=100;
+	reclaimable=1;
+	featurereclamate=smudge01; 
+  	seqnamereclamate=tree1reclamate;
+	}

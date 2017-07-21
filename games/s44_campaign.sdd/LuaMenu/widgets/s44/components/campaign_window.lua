@@ -51,6 +51,8 @@ function CampaignWindow:init(parent)
 				local s = WG.CampaignData.Side
 				local d = sel_day[s]
 				if WG.CampaignData.IsDayUnlocked(d - 1, s) then
+					sel_day[s] = d - 1
+					sel_chapter = nil
 					WG.Windows.campaign:_LoadDay(d - 1, s)
 					WG.Windows.campaign:_LoadChapter()
 				end
@@ -85,6 +87,8 @@ function CampaignWindow:init(parent)
 				local s = WG.CampaignData.Side
 				local d = sel_day[s]
 				if WG.CampaignData.IsDayUnlocked(d + 1, s) then
+					sel_day[s] = d + 1
+					sel_chapter = nil
 					WG.Windows.campaign:_LoadDay(d + 1, s)
 					WG.Windows.campaign:_LoadChapter()
 				end

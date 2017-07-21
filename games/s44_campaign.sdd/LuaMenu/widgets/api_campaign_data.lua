@@ -160,10 +160,10 @@ function externalFunctions.IsDayUnlocked(dayID, campaign)
 		-- The first day is always unlocked
 		return true
 	end
-	local prev = gamedata[key]
+	local prev = gamedata[key][dayID - 1]
 	local unlocked = true
 	for _,c in ipairs(prev.chapters) do
-		if c.locks and not c.success then
+		if c.lock and not c.success then
 			unlocked = false
 			break
 		end

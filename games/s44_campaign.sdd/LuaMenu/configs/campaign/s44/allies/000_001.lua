@@ -12,7 +12,7 @@ Infantry advanced course:
 local retData = {
 	played = false,
 	success = false,
-	lock = true,
+	lock = false,
 	img = LUA_DIRNAME .. "configs/campaign/" .. shortname .. "/allies/000_001",
 	x = "57%",
 	y = "5%",
