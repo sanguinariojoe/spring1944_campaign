@@ -26,7 +26,7 @@ gadget.missions = {
     [1] = {
         events = {  -- Ensure they are sorted in time
             {0, [[CreateUnit("usparatrooper", 300, 250, 100, "south", 1)]]},
-            -- {1, [[SyncedFunction("LoadUnits", {'LuaRules/Configs/ger.lua', config.teams[2].teamID})]]},
+            {0, [[SyncedFunction("LoadUnits", {'LuaRules/Configs/gerunits.lua', config.teams[2].teamID})]]},
         },
 
         triggers = {
