@@ -64,4 +64,35 @@ gadget.missions = {
         callins = {
         },
     },
+    [2] = {
+        events = {  -- Ensure they are sorted in time
+            {0, [[ _G["Ryan"] = FilterUnitsByName(Spring.GetTeamUnits(Spring.GetMyTeamID()), "uspararifle")[1] ]]},
+            {0, [[MessageByPlayer("Such a beautiful day to visit Normandie...")]]},
+            {5, [[DrawMarker(135, 5, 745, "Meeting point")]]},
+            {5, [[MessageByPlayer("Well... Let's head to the meeting point")]]},
+        },
+        triggers = {
+            {[[#FilterUnitsByName(Spring.GetUnitsInCylinder(135, 745, 225), "uspararifle") > 0]],
+             [[SyncedFunction("LoadUnits", {'LuaRules/Configs/uswave.lua', Spring.GetMyTeamID()})
+               Success()]],
+             once = false
+            },
+            {[[_G["Ryan"] ~= nil and (not Spring.ValidUnitID(_G["Ryan"]) or Spring.GetUnitIsDead(_G["Ryan"]))]],
+             [[MessageToPlayer("R.I.P.")
+               Fail()]],
+             once = false
+            },
+        },
+        callins = {
+        },
+    },
+    [3] = {
+        events = {  -- Ensure they are sorted in time
+            {0, [[MessageToPlayer("Right on time soldier!")]]},
+        },
+        triggers = {
+        },
+        callins = {
+        },
+    },
 }
